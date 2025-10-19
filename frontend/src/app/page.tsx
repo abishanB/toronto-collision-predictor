@@ -1,8 +1,9 @@
 "use client";
-
+import { Fragment } from "react";
 import { useRef, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import {fetchKernalDensityPrediction} from "./fetchPredictions"
 
 export default function Home() {
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -28,21 +29,16 @@ export default function Home() {
     return () => mapRef.current?.remove();
   }, []);
 
-
-  const fetchPrediction = async (lat: number, long: number) => {
-    const res = await fetch("http://127.0.0.1:8000/predict", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ lat: lat, long: long })
-    })
-    console.log(await res.json())
-  }
-    
+ 
   const handleMapClick = (e: mapboxgl.MapMouseEvent) => {
     const { lat, lng } = e.lngLat;
-    fetchPrediction(lat, lng)
+    const promise = fetchKernalDensityPrediction(lat, lng).then()
+    promise.then((kernal_density_predicition) => {
+      console.log(kernal_density_predicition)
+    })
   }
+
   return (
-    <div id="map-container" ref={mapContainerRef} style={{ width: "100%", height: "100vh" }}/>
+    <div id="map-container" ref={mapContainerRef} style={{ width: "100%", height: "100vh" }}/>  
   );
 }

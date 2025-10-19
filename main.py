@@ -8,13 +8,13 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-kde_model = joblib.load("./KernalDensityModel/model.pkl")
+kd_model = joblib.load("./KernalDensityModel/model.pkl")
 
 
 class InputData(BaseModel):
@@ -27,10 +27,10 @@ def root():
   return {"OK!"}
 
 
-@app.post("/predict")
+@app.post("/predict/kd")
 def predict(data: InputData):
   point = np.array([[data.lat, data.long]])
-  log_density = kde_model.score_samples(point)
+  log_density = kd_model.score_samples(point)
   risk_score = np.exp(log_density)[0]
 
   return {"prediction": risk_score}
