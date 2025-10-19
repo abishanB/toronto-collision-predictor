@@ -2,7 +2,7 @@ import folium
 from folium.plugins import HeatMap
 import pandas as pd
 
-df = pd.read_csv("traffic_collisions.csv")
+df = pd.read_csv("./datasets/traffic_collisions.csv")
 injury_fatal_df = df[(df['FATALITIES'] > 0) | (df['INJURY'] == "YES")]
 
 gradient = {
