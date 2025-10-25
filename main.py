@@ -4,7 +4,7 @@ from pydantic import BaseModel
 import joblib
 import numpy as np
 
-app = FastAPI()
+app: FastAPI = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
@@ -41,7 +41,7 @@ def classify_risk(score: float) -> str:
 
 @app.post("/predict/kd")
 def predict(data: InputData) -> object:
-  point = np.array([[data.lat, data.long]])
+  point: np.ndarray = np.array([[data.lat, data.long]])
   log_density: np.ndarray = kd_model.score_samples(point)
   risk_score: float = np.exp(log_density)[0]
 

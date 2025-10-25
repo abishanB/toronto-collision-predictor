@@ -22,7 +22,7 @@ params = {'bandwidth': bandwidths, 'kernel': kernels}
 grid = GridSearchCV(
     KernelDensity(),
     params,
-    cv=3,  # 5-fold cross-validation
+    cv=3,
     n_jobs=-1,  # use all cores
     verbose=2
 )
