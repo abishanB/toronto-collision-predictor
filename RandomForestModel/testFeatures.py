@@ -18,15 +18,15 @@ y = df['SEVERE_COLLISION']
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.3, random_state=42)
 params = {
-    'n_estimators': [80, 100, 120],
-    'max_depth': [15, 20, 40, None],
-    'min_samples_split': [2, 5],
-    'min_samples_leaf': [1, 2, 4],
-    'max_features': ['sqrt', 'log2', None]
+    'n_estimators': list(range(5, 102, 2)),
+    'max_depth': list(range(5, 50, 2)),
+    'min_samples_split': [2],
+    'min_samples_leaf': [1],
+    'max_features': [None]
 }
 
 rf = RandomForestClassifier(random_state=42)
-grid = GridSearchCV(rf, params, cv=3, scoring='f1', n_jobs=-1, verbose=2)
+grid = GridSearchCV(rf, params, cv=5, scoring='f1', n_jobs=-1, verbose=2)
 grid.fit(X_train, y_train)
 
 print("Best Params:", grid.best_params_)
