@@ -5,8 +5,8 @@ from sklearn.model_selection import train_test_split
 import pandas as pd
 # todo switch to pipeline encoding
 df = pd.read_csv("./RandomForestModel/ksi_collisions.csv")
-categorical_features = ['LIGHT', 'VISIBILITY', 'ROAD_CONDITION', 'DOW',
-                        'TIME_OF_DAY', 'SEASON', 'VEHICLE_TYPE', 'DRIVER_ACTION', 'IMPACT_TYPE']
+categorical_features = ['LIGHT', 'VISIBILITY', 'ROAD_CONDITION', 'DOW', 'TIME_OF_DAY',
+                        'SEASON', 'VEHICLE_TYPE', 'DRIVER_ACTION', 'IMPACT_TYPE', 'NEIGHBOURHOOD']
 encoder = OneHotEncoder(handle_unknown='ignore', sparse_output=False)
 encoded_array = encoder.fit_transform(df[categorical_features])
 encoded_cols = encoder.get_feature_names_out(categorical_features)
@@ -15,10 +15,10 @@ X = encoded_df
 y = df['SEVERE_COLLISION']
 
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.3, random_state=42)
+    X, y, test_size=0.2, random_state=42)
 params = {
-    'n_estimators': list(range(5, 70, 5)),
-    'max_depth': list(range(3, 40, 1)),
+    'n_estimators': list(range(8, 25, 1)),
+    'max_depth': list(range(10, 20, 1)),
     'min_samples_split': [2],
     'min_samples_leaf': [1],
     'max_features': ['sqrt']
