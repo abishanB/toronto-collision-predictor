@@ -42,7 +42,7 @@ export default function Home() {
     mapRef.current = map; // assign to ref once created
 
     mapRef.current.on("click", (e: mapboxgl.MapMouseEvent) => {
-      handleMapClick(e, map);
+      handleMapClick(e);
     });
 
     mapRef.current.on("move", () => {
@@ -55,7 +55,7 @@ export default function Home() {
     return () => mapRef.current?.remove();
   }, []);
 
-  const handleMapClick = (e: mapboxgl.MapMouseEvent, map: mapboxgl.Map) => {
+  const handleMapClick = (e: mapboxgl.MapMouseEvent) => {
     const { lat, lng } = e.lngLat;
     setLatitude(lat);
     setLongitude(lng);
