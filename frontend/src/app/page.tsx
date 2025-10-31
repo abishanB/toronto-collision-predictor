@@ -4,6 +4,7 @@ import mapboxgl from "mapbox-gl";
 import CollisionRisk from "./collisionRisk";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./App.css";
+import { fetchHood } from './fetchPredictions';
 //https://www.w3schools.com/howto/howto_js_collapse_sidepanel.asp
 
 const INITIAL_CENTER: [number, number] = [-79.3662, 43.715];//long, lat
@@ -25,6 +26,8 @@ export default function Home() {
 
   const [currRiskScore, setCurrRiskScore] = useState<number>(0.0);
   const [currPrediction, setCurrPrediction] = useState<string>("NA");
+
+  const [currHood, setCurrHood] = useState<String>("NA");
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
@@ -55,10 +58,12 @@ export default function Home() {
     return () => mapRef.current?.remove();
   }, []);
 
-  const handleMapClick = (e: mapboxgl.MapMouseEvent) => {
+  const handleMapClick = async(e: mapboxgl.MapMouseEvent) => {
     const { lat, lng } = e.lngLat;
     setLatitude(lat);
     setLongitude(lng);
+    const hood = await fetchHood(lat, lng)
+    setCurrHood(hood.neighbourhood_name);
   };
 
   return (
@@ -67,6 +72,7 @@ export default function Home() {
       <div className="temp">
         <h3>Collision Risk Score: {currRiskScore}</h3>
         <h3>Collision Risk Class: {currPrediction}</h3>
+         <h3>Current Hood: {currHood}</h3>
         Longitude: {center[0].toFixed(4)} | Latitude: {center[1].toFixed(4)} |
         Zoom: {zoom.toFixed(2)}
       </div>
