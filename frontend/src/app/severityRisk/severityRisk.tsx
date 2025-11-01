@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './severityRisk.module.css';
 import { fetchSeverityRisk } from '../fetchPredictions';
+
 interface FormData {
   light_condition: string;
   visibility: string;
@@ -43,6 +44,19 @@ export default function SeverityRisk({ neighbourhood }: SeverityRiskProps) {
     }));
   };
 
+  const validateForm = (): boolean => {
+    if (formData.neighbourhood.toUpperCase() === "UNKNOWN") {
+      return false;
+    }
+
+    const hasEmptyFields = Object.values(formData).some(value => 
+      !value || value.trim() === ''
+    );
+
+    if (hasEmptyFields) {return false;}
+    return true;
+  };
+
   // Update formData when neighbourhood prop changes
   useEffect(() => {
     setFormData(prev => ({
@@ -53,6 +67,10 @@ export default function SeverityRisk({ neighbourhood }: SeverityRiskProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validateForm()) {
+      setPrediction("Form Error");
+      return;
+    }
     const prediction = await fetchSeverityRisk(formData);
     setPrediction(prediction.severity_risk_class);
   };
@@ -278,7 +296,7 @@ export default function SeverityRisk({ neighbourhood }: SeverityRiskProps) {
           Predict Severity Risk
         </button>
       </form>
-      <p>Prediction: {prediction}</p>
+      <p className={styles.severityRiskResult}>Prediction: {prediction}</p>
     </div>
   );
 }

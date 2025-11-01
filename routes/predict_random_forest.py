@@ -26,7 +26,7 @@ class InputData(BaseModel):
 
 
 def classify_risk(probability: float) -> str:
-  if probability <= 0.55:
+  if probability <= 0.50:
     return "Low Risk"
   elif probability <= 0.80:
     return "Medium Risk"
