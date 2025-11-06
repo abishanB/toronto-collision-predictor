@@ -71,9 +71,9 @@ export default function Home() {
     <>
       <div id="map-container" ref={mapContainerRef} />
       <div className="temp">
-        <h3>Collision Risk Score: {currRiskScore}</h3>
+        {/* <h3>Collision Risk Score: {currRiskScore}</h3>
         <h3>Collision Risk Class: {currPrediction}</h3>
-         <h3>Current Hood: {currHood}</h3>
+        <h3>Current Hood: {currHood}</h3> */}
         Longitude: {center[0].toFixed(4)} | Latitude: {center[1].toFixed(4)} |
         Zoom: {zoom.toFixed(2)}
       </div>

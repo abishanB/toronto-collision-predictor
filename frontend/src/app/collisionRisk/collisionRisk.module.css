@@ -1,9 +1,12 @@
 .collisionRisk{
   top: 30%;
   left: 0;
-  max-width: 15vw;
+  max-width: 16vw;
 }
-
+.collisionRisk p{
+  font-size: 0.7rem;
+  margin-bottom: 10px;
+}
 .latLongGroup {
   display: flex;
   flex-direction: column;
@@ -39,9 +42,10 @@
 
 .errorMsg {
   text-align: center;
-  height: 14px;
+  height: 10px;
   color: #ff0033;
   font-size: 0.75rem;
   margin-top: 8px;
+  
 }
 

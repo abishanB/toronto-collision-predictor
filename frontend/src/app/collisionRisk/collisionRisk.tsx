@@ -58,6 +58,7 @@ export default function CollisionRisk({
   return (
     <div className={`container ${styles.collisionRisk}`}>
       <h4>Collision Risk</h4>
+      <p>Click Map To Set Coordinates</p>
       <div className={styles.latLongGroup}>
         <div className={styles['input-group']}>
           <label htmlFor="latitude">Latitude:</label>
