@@ -54,6 +54,7 @@ def predict_severity(featuresInput: FeaturesInput) -> object:  # severity risk p
   severity_probability: float = rf_model.predict_proba(features_df)[0][1]
   severity_risk_class: str = classify_risk(severity_probability)
   return {
+    "status": "OK",
     "severity_risk_score": severity_probability,
     "severity_risk_class": severity_risk_class
   }

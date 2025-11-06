@@ -80,6 +80,7 @@ export default function Home() {
       <CollisionRisk 
         latitude={latitude}
         longitude={longitude}
+        hood={currHood}
         onLatitudeChange={(value: number) => setLatitude(value)}
         onLongitudeChange={(value: number) => setLongitude(value)}
         mapRef={mapRef}

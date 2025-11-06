@@ -1,10 +1,12 @@
 import styles from "./collisionRisk.module.css"
 import mapboxgl from 'mapbox-gl';
+import { useState } from "react";
 import { fetchKernalDensityPrediction } from '../fetchPredictions';
 
 interface CollisionRiskProps {
   latitude: number;
   longitude: number;
+  hood: string;
   onLatitudeChange: (value: number) => void;
   onLongitudeChange: (value: number) => void;
   mapRef: React.RefObject<mapboxgl.Map | null>;
@@ -15,12 +17,14 @@ interface CollisionRiskProps {
 export default function CollisionRisk({
   latitude,
   longitude,
+  hood,
   onLatitudeChange,
   onLongitudeChange,
   mapRef,
   onPredictionUpdate
 }: CollisionRiskProps) {
   const inputStep: number = 0.001;// step size for lat and long fields
+  const [errorMsg, setErrorMsg] = useState<string>(' ');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -35,11 +39,15 @@ export default function CollisionRisk({
 
   const handlePredict = async () => {
     if (!mapRef.current) return;
-    
-    if (!isFinite(latitude) || !isFinite(longitude)) {
-      alert('Please enter valid coordinates');
+    if (hood === 'Unknown') {
+      setErrorMsg('Invalid Coordinates');
       return;
     }
+    if (!isFinite(latitude) || !isFinite(longitude)) {
+      setErrorMsg('Please enter valid coordinates');
+      return;
+    }
+    setErrorMsg('');
 
     const prediction = await fetchKernalDensityPrediction(latitude, longitude);
     onPredictionUpdate(prediction.collision_risk_class, prediction.collision_risk_score);
@@ -77,6 +85,7 @@ export default function CollisionRisk({
             onChange={handleInputChange}
             step={inputStep}
             placeholder="Enter latitude"
+            
           />
         </div>
         <div className={styles['input-group']}>
@@ -89,10 +98,11 @@ export default function CollisionRisk({
             onChange={handleInputChange}
             step={inputStep}
             placeholder="Enter longitude"
+            
           />
         </div>
-      
       </div>
+      <p className={styles.errorMsg}>{errorMsg}</p>
        <button 
           className='predict-button'
           onClick={handlePredict}

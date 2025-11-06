@@ -37,4 +37,11 @@
   color: #999;
 }
 
+.errorMsg {
+  text-align: center;
+  height: 14px;
+  color: #ff0033;
+  font-size: 0.75rem;
+  margin-top: 8px;
+}
 

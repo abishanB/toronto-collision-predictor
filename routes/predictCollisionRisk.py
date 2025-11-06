@@ -37,4 +37,8 @@ def predict_kernal_density_evaluation(coords: Coordinates) -> object:
       (risk_score - kd_min_risk) / (kd_max_risk - kd_min_risk)) * 100
   risk_class: str = classify_risk(normalized_risk_score)
 
-  return {"collision_risk_score": normalized_risk_score, "collision_risk_class": risk_class}
+  return {
+    "status": "OK",
+    "collision_risk_score": normalized_risk_score,
+    "collision_risk_class": risk_class
+  }

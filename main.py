@@ -25,7 +25,7 @@ async def log_request_time(request: Request, call_next):
 
 @app.get("/")
 def root():
-  return {"OK!"}
+  return {"status": "OK!"}
 
 
 app.include_router(predictCollisionRisk.router)
