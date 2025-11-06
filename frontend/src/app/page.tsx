@@ -25,9 +25,6 @@ export default function Home() {
   const [latitude, setLatitude] = useState<number>(INITIAL_CENTER[1]);
   const [longitude, setLongitude] = useState<number>(INITIAL_CENTER[0]);
 
-  const [currRiskScore, setCurrRiskScore] = useState<number>(0.0);
-  const [currPrediction, setCurrPrediction] = useState<string>("UNKNOWN");
-
   const [currHood, setCurrHood] = useState<string>("");
 
   useEffect(() => {
@@ -82,10 +79,6 @@ export default function Home() {
         longitude={longitude}
         hood={currHood}
         mapRef={mapRef}
-        onPredictionUpdate={(prediction: string, score: number) => {
-          setCurrPrediction(prediction);
-          setCurrRiskScore(score);
-        }}
       />
       <SeverityRisk neighbourhood={currHood} />
     </> 
