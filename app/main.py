@@ -1,7 +1,14 @@
+from pydantic import BaseModel
 from fastapi import FastAPI, Request
 import time
 from fastapi.middleware.cors import CORSMiddleware
-from routes import neighbourhood, predictCollisionRisk, predictSeverityRisk
+from app.routes import neighbourhood, predictCollisionRisk, predictSeverityRisk
+
+
+class Coordinates(BaseModel):
+  lat: float
+  long: float
+
 
 app: FastAPI = FastAPI()
 

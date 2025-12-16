@@ -1,18 +1,13 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
+from app.coordinates import Coordinates
 import geopandas as gpd
 from shapely.geometry import Point
 
 router = APIRouter()
 
 
-class Coordinates(BaseModel):
-  lat: float
-  long: float
-
-
 neighbourhoods = gpd.read_file(
-  "./routes/toronto_neigbourhoods.geojson")
+  "./app/routes/toronto_neigbourhoods.geojson")
 
 if neighbourhoods.crs is None or neighbourhoods.crs.to_string() != "EPSG:4326":
   neighbourhoods = neighbourhoods.to_crs(epsg=4326)

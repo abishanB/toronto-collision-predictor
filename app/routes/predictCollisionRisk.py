@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
+from app.coordinates import Coordinates
 import joblib
 import numpy as np
 
@@ -10,11 +10,6 @@ load_model_obj: dict = joblib.load("./KernalDensityModel/kd_model.joblib")
 kd_model = load_model_obj["model"]
 kd_min_risk: int = load_model_obj["min_risk"]
 kd_max_risk: int = load_model_obj["max_risk"]
-
-
-class Coordinates(BaseModel):
-  lat: float
-  long: float
 
 
 def classify_risk(score: float) -> str:
