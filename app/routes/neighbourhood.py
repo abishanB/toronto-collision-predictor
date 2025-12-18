@@ -2,8 +2,16 @@ from fastapi import APIRouter
 from app.coordinates import Coordinates
 import geopandas as gpd
 from shapely.geometry import Point
+from pydantic import BaseModel
 
 router = APIRouter()
+
+
+class NeighbourhoodResponse(BaseModel):
+  neighbourhood_name: str
+  neighbourhood_number: int
+  lat: float
+  long: float
 
 
 neighbourhoods = gpd.read_file(
@@ -41,14 +49,13 @@ def find_neighbourhood_by_coords(lat: float, lon: float) -> tuple[str, int]:
   return "Unknown", -1
 
 
-@router.post("/neighbourhood")
-def get_neighbourhood(coords: Coordinates) -> object:
+@router.post("/neighbourhood", response_model=NeighbourhoodResponse)
+def get_neighbourhood(coords: Coordinates) -> NeighbourhoodResponse:
   hood_name, hood_number = find_neighbourhood_by_coords(
     coords.lat, coords.long)
-  return {
-      "status": "OK",
-      "neighbourhood_name": hood_name,
-      "neighbourhood_number": hood_number,
-      "lat": coords.lat,
-      "long": coords.long
-  }
+  return NeighbourhoodResponse(
+      neighbourhood_name=hood_name,
+      neighbourhood_number=hood_number,
+      lat=coords.lat,
+      long=coords.long
+  )

@@ -72,6 +72,7 @@ export default function SeverityRisk({ neighbourhood }: SeverityRiskProps) {
       return;
     }
     const prediction = await fetchSeverityRisk(formData);
+    console.log(prediction)
     setPrediction(prediction.severity_risk_class);
   };
 

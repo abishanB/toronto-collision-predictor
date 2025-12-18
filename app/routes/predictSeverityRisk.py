@@ -5,10 +5,10 @@ import pandas as pd
 
 router = APIRouter()
 
-# Random Forest Model for Severity Risk Prediction
-load_model_obj = joblib.load("./RandomForestModel/rf_model.joblib")
-rf_model = load_model_obj["model"]
-feature_names = load_model_obj.get("feature_names", [])
+
+class SeverityRiskResponse(BaseModel):
+  severity_risk_score: float
+  severity_risk_class: str
 
 
 class FeaturesInput(BaseModel):
@@ -25,17 +25,28 @@ class FeaturesInput(BaseModel):
   age_range: str
 
 
+# Random Forest Model for Severity Risk Prediction
+load_model_obj = joblib.load("./RandomForestModel/rf_model.joblib")
+rf_model = load_model_obj["model"]
+feature_names = load_model_obj.get("feature_names", [])
+
+
+LOW_RISK_THRESHOLD = 0.35
+MEDIUM_RISK_THRESHOLD = 0.70
+
+
 def classify_risk(probability: float) -> str:
-  if probability <= 0.50:
+  if probability <= LOW_RISK_THRESHOLD:
     return "Low Risk"
-  elif probability <= 0.80:
+  elif probability <= MEDIUM_RISK_THRESHOLD:
     return "Medium Risk"
   else:
     return "High Risk"
 
 
-@router.post("/predict/severity")
-def predict_severity(featuresInput: FeaturesInput) -> object:  # severity risk prediction
+@router.post("/predict/severity", response_model=SeverityRiskResponse)
+# severity risk prediction
+def predict_severity(featuresInput: FeaturesInput) -> SeverityRiskResponse:
   features_data: dict = {
     "LIGHT": [featuresInput.light_condition],
     "VISIBILITY": [featuresInput.visibility],
@@ -53,8 +64,7 @@ def predict_severity(featuresInput: FeaturesInput) -> object:  # severity risk p
 
   severity_probability: float = rf_model.predict_proba(features_df)[0][1]
   severity_risk_class: str = classify_risk(severity_probability)
-  return {
-    "status": "OK",
-    "severity_risk_score": severity_probability,
-    "severity_risk_class": severity_risk_class
-  }
+  return SeverityRiskResponse(
+    severity_risk_score=severity_probability,
+    severity_risk_class=severity_risk_class
+  )
