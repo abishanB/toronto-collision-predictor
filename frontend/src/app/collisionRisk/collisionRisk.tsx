@@ -9,18 +9,19 @@ interface CollisionRiskProps {
   longitude: number;
   hood: string;
   mapRef: React.RefObject<mapboxgl.Map | null>;
+  removeSelectedMarker: () => void;
 }
 
 export default function CollisionRisk({
   latitude,
   longitude,
   hood,
-  mapRef
+  mapRef,
+  removeSelectedMarker
 }: CollisionRiskProps) {
   const inputStep: number = 0.001;// step size for lat and long fields
   const [errorMsg, setErrorMsg] = useState<string>('');
  
-
   const handlePredict = async () => {
     if (!mapRef.current) return;
     if (hood === 'Unknown') {
@@ -34,7 +35,9 @@ export default function CollisionRisk({
     setErrorMsg('');
 
     const prediction = await fetchKernalDensityPrediction(latitude, longitude);
+    
 
+    removeSelectedMarker();
     // Create and add marker
     const marker_div: Element = document.createElement("div");
     marker_div.className = "marker";

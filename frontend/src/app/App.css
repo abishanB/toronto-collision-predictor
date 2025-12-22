@@ -45,6 +45,10 @@
 .marker.high {
   background: url("/high-marker.svg") center / contain no-repeat;
 }
+.marker.selected{
+  background: url("/selected-position-marker.svg") center / contain no-repeat;
+}
+
 
 
 .coordinate-inputs {

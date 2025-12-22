@@ -16,23 +16,27 @@ const MAP_BOUNDS: [[number, number], [number, number]] = [
   [-78.90154616803314, 43.92], // Northeast coordinates
 ];
 
+
+
 export default function Home() {
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const [center, setCenter] = useState<[number, number]>(INITIAL_CENTER);
   const [zoom, setZoom] = useState<number>(INITIAL_ZOOM);
   
+  const selectedMarkerRef = useRef<mapboxgl.Marker | null>(null);// ref to store the selected position marker
   const [latitude, setLatitude] = useState<number>(INITIAL_CENTER[1]);
   const [longitude, setLongitude] = useState<number>(INITIAL_CENTER[0]);
 
   const [currHood, setCurrHood] = useState<string>("");
+  
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
     const container = mapContainerRef.current;
     if (!container) return; // ensures it's not null
-
+    
     const map = new mapboxgl.Map({
       container: container,
       style: "mapbox://styles/mapbox/streets-v11", // required
@@ -41,7 +45,7 @@ export default function Home() {
       maxBounds: MAP_BOUNDS
     });
     mapRef.current = map; // assign to ref once created
-
+    if (!mapRef.current) return;
     mapRef.current.on("click", (e: mapboxgl.MapMouseEvent) => {
       handleMapClick(e);
     });
@@ -56,12 +60,41 @@ export default function Home() {
     return () => mapRef.current?.remove();
   }, []);
 
+  const removeSelectedMarker = () => { 
+    if (selectedMarkerRef.current) {
+      selectedMarkerRef.current.remove();
+      selectedMarkerRef.current = null;
+    }
+  }
+
+  const updateSelectedMarker = (lng: number, lat: number) => {
+    removeSelectedMarker();
+
+    const selected_postion_marker: Element = document.createElement("div");
+    selected_postion_marker.className = "selected " + "marker";
+    if (mapRef.current) {
+      selectedMarkerRef.current = new mapboxgl.Marker(selected_postion_marker)
+        .setLngLat([lng, lat])
+        .setPopup(new mapboxgl.Popup({ offset: 25 }))
+        .addTo(mapRef.current);
+    } 
+  };
   const handleMapClick = async(e: mapboxgl.MapMouseEvent) => {
+    //ignore clicks on existing markers or popups
+    const target = e.originalEvent.target as HTMLElement;
+    if (target.closest(".mapboxgl-marker") || target.closest(".mapboxgl-popup")) {
+      return;
+    }
+    
     let { lat, lng } = e.lngLat;
     setLatitude(lat);
     setLongitude(lng);
+    
     let hood = await fetchHood(lat, lng)
     setCurrHood(hood.neighbourhood_name);
+    
+    updateSelectedMarker(lng, lat);
+    
   };
 
   return (
@@ -79,6 +112,7 @@ export default function Home() {
         longitude={longitude}
         hood={currHood}
         mapRef={mapRef}
+        removeSelectedMarker={removeSelectedMarker}
       />
       <SeverityRisk neighbourhood={currHood} />
     </> 
