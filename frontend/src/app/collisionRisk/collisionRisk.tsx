@@ -2,6 +2,7 @@ import styles from "./collisionRisk.module.css"
 import mapboxgl from 'mapbox-gl';
 import { useState } from "react";
 import { fetchKernalDensityPrediction } from '../fetchPredictions';
+import './popup.css';
 
 interface CollisionRiskProps {
   latitude: number;
@@ -42,15 +43,21 @@ export default function CollisionRisk({
       "Medium Risk": "medium",
       "High Risk": "high",
     };
+
     marker_div.className = "marker " + colorMap[prediction.collision_risk_class];
     
     new mapboxgl.Marker(marker_div)
       .setLngLat([longitude, latitude])
-      .setPopup(
-        new mapboxgl.Popup({ offset: 25 })
-          .setHTML(`<h3>${latitude}</h3><p>${longitude}</p>`)
+      .setPopup(new mapboxgl.Popup({ offset: 25 })
+      .setHTML(
+        `<div class="popup-content">
+            <h3>Collision Risk: ${prediction.collision_risk_class}</h3>
+            <p>Lat: ${Number(latitude.toFixed(4))}</p>
+            <p>Lon: ${Number(longitude.toFixed(4))}</p>
+         </div>`
       )
-      .addTo(mapRef.current);
+  )
+  .addTo(mapRef.current);
   };
 
   return (

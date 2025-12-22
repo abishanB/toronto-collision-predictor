@@ -1,0 +1,19 @@
+.popup-content {
+  font-family: Arial, sans-serif;
+  color: #333;
+  width: fit-content;
+  height: fit-content;
+  margin: 0;
+  padding: 0px;
+}
+.popup-content h3 {
+  padding: 0;
+  margin: 0;
+  font-size: 0.775rem;
+}
+
+.popup-content p {
+  padding: 0;
+  margin: 0;
+  font-size: 0.7rem;
+}
