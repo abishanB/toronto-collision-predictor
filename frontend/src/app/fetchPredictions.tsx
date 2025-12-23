@@ -1,4 +1,21 @@
-export const fetchHood = async (lat: number, long: number) => {
+type collisionRiskResponse = {
+  collision_risk_score: number;
+  collision_risk_class: "Low Risk" | "Medium Risk" | "High Risk";
+};
+
+type hoodResponse = {
+  neighbourhood_name: string
+  neighbourhood_number: number
+  lat: number
+  long: number
+};
+
+type severityRiskResponse = {
+  severity_risk_score: number
+  severity_risk_class: string
+}
+
+export const fetchHood = async (lat: number, long: number): Promise<hoodResponse> => {
   const res = await fetch("http://127.0.0.1:8000/neighbourhood", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -7,7 +24,7 @@ export const fetchHood = async (lat: number, long: number) => {
   return await res.json()
 };
 
-export const fetchSeverityRisk = async (features: object) => {
+export const fetchSeverityRisk = async (features: object): Promise<severityRiskResponse> => {
   const res = await fetch("http://127.0.0.1:8000/predict/severity", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -17,12 +34,7 @@ export const fetchSeverityRisk = async (features: object) => {
 };
 
 
-type SeverityResponse = {
-  collision_risk_score: number;
-  collision_risk_class: "Low Risk" | "Medium Risk" | "High Risk";
-  
-};
-export const fetchKernalDensityPrediction = async (lat: number, long: number): Promise<SeverityResponse> => {
+export const fetchKernalDensityPrediction = async (lat: number, long: number): Promise<collisionRiskResponse> => {
   const res = await fetch("http://127.0.0.1:8000/predict/collision", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

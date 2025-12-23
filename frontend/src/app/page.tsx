@@ -16,8 +16,6 @@ const MAP_BOUNDS: [[number, number], [number, number]] = [
   [-78.90154616803314, 43.92], // Northeast coordinates
 ];
 
-
-
 export default function Home() {
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -60,14 +58,14 @@ export default function Home() {
     return () => mapRef.current?.remove();
   }, []);
 
-  const removeSelectedMarker = () => { 
+  const removeSelectedMarker = (): void => { 
     if (selectedMarkerRef.current) {
       selectedMarkerRef.current.remove();
       selectedMarkerRef.current = null;
     }
   }
 
-  const updateSelectedMarker = (lng: number, lat: number) => {
+  const updateSelectedMarker = (lng: number, lat: number): void => {
     removeSelectedMarker();
 
     const selected_postion_marker: Element = document.createElement("div");
@@ -94,7 +92,6 @@ export default function Home() {
     setCurrHood(hood.neighbourhood_name);
     
     updateSelectedMarker(lng, lat);
-    
   };
 
   return (

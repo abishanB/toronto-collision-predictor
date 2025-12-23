@@ -26,7 +26,7 @@ export default function CollisionRisk({
   const inputStep: number = 0.001;// step size for lat and long fields
   const [errorMsg, setErrorMsg] = useState<string>('');
 
-  const predictedLocationsRef = useRef(new Set());
+  const predictedLocationsRef = useRef<Set<string>>(new Set());
 
 
   const handlePredict = async () => {
@@ -41,7 +41,7 @@ export default function CollisionRisk({
       return;
     }
 
-    const key = coordKey(latitude, longitude);  
+    const key: string = coordKey(latitude, longitude);  
     if (predictedLocationsRef.current.has(key)) {
       setErrorMsg('Already Predicted Here');
       return;
