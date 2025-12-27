@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import styles from './severityRisk.module.css';
+import { useState, useEffect } from 'react';
 import { fetchSeverityRisk } from '../fetchPredictions';
 
 interface FormData {

@@ -49,8 +49,6 @@
   background: url("/selected-position-marker.svg") center / contain no-repeat;
 }
 
-
-
 .coordinate-inputs {
   display: flex;
   flex-direction: column;

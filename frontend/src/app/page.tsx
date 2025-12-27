@@ -1,13 +1,10 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
-import CollisionRisk from "./collisionRisk/collisionRisk";
-import SeverityRisk from "./severityRisk/severityRisk";  
+import RiskPanels from "./ui_panels/riskPanels";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./App.css";
 import { fetchHood } from './fetchPredictions';
-import styles from "./collisionRisk/collisionRisk.module.css";
-//https://www.w3schools.com/howto/howto_js_collapse_sidepanel.asp
 
 const INITIAL_CENTER: [number, number] = [-79.3662, 43.715];//long, lat
 const INITIAL_ZOOM: number = 10.5;
@@ -16,8 +13,6 @@ const MAP_BOUNDS: [[number, number], [number, number]] = [
   [-79.8298827685777, 43.5], // Southwest coordinates
   [-78.90154616803314, 43.92], // Northeast coordinates
 ];
-
-const PANEL_SWITCH_DELAY_MS = 150;
 
 export default function Home() {
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -30,35 +25,6 @@ export default function Home() {
   const [longitude, setLongitude] = useState<number>(INITIAL_CENTER[0]);
 
   const [currHood, setCurrHood] = useState<string>("");
-  
-  const [showCollisionPanel, setShowCollisionPanel]= useState<boolean>(true);
-  const [showSeverityPanel, setShowSeverityPanel]= useState<boolean>(false);
-
-
-  const showPanelToggle = () => {
-    console.log("Toggled Collision Panel");
-    if (showCollisionPanel){
-      setShowCollisionPanel(false);
-      return
-    }
-    setShowSeverityPanel(false)
-  }
-
-  useEffect(() => {
-    if (!showCollisionPanel && !showSeverityPanel){
-      setTimeout(() => {
-        setShowSeverityPanel(true);
-      }, PANEL_SWITCH_DELAY_MS)
-    }
-  }, [showCollisionPanel]);
-
-  useEffect(() => {
-    if (!showCollisionPanel && !showSeverityPanel){
-      setTimeout(() => {
-        setShowCollisionPanel(true);
-      }, PANEL_SWITCH_DELAY_MS)
-    }
-  }, [showSeverityPanel]);
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
@@ -108,6 +74,7 @@ export default function Home() {
         .addTo(mapRef.current);
     } 
   };
+  
   const handleMapClick = async(e: mapboxgl.MapMouseEvent) => {
     //ignore clicks on existing markers or popups
     const target = e.originalEvent.target as HTMLElement;
@@ -135,19 +102,13 @@ export default function Home() {
         Longitude: {center[0].toFixed(4)} | Latitude: {center[1].toFixed(4)} |
         Zoom: {zoom.toFixed(2)}
       </div>
-      <CollisionRisk 
+      <RiskPanels 
         latitude={latitude}
         longitude={longitude}
         hood={currHood}
         mapRef={mapRef}
         removeSelectedMarker={removeSelectedMarker}
-        showCollisionPanel={showCollisionPanel}
       />
-      <SeverityRisk neighbourhood={currHood} showSeverityPanel={showSeverityPanel} />
-
-      <div  className={`container ${styles.testButton}`}>
-        <button onClick={showPanelToggle} >h</button>     
-      </div>
     </> 
   );
 }
