@@ -6,6 +6,7 @@ import SeverityRisk from "./severityRisk/severityRisk";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./App.css";
 import { fetchHood } from './fetchPredictions';
+import styles from "./collisionRisk/collisionRisk.module.css";
 //https://www.w3schools.com/howto/howto_js_collapse_sidepanel.asp
 
 const INITIAL_CENTER: [number, number] = [-79.3662, 43.715];//long, lat
@@ -15,6 +16,8 @@ const MAP_BOUNDS: [[number, number], [number, number]] = [
   [-79.8298827685777, 43.5], // Southwest coordinates
   [-78.90154616803314, 43.92], // Northeast coordinates
 ];
+
+const PANEL_SWITCH_DELAY_MS = 150;
 
 export default function Home() {
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -28,6 +31,34 @@ export default function Home() {
 
   const [currHood, setCurrHood] = useState<string>("");
   
+  const [showCollisionPanel, setShowCollisionPanel]= useState<boolean>(true);
+  const [showSeverityPanel, setShowSeverityPanel]= useState<boolean>(false);
+
+
+  const showPanelToggle = () => {
+    console.log("Toggled Collision Panel");
+    if (showCollisionPanel){
+      setShowCollisionPanel(false);
+      return
+    }
+    setShowSeverityPanel(false)
+  }
+
+  useEffect(() => {
+    if (!showCollisionPanel && !showSeverityPanel){
+      setTimeout(() => {
+        setShowSeverityPanel(true);
+      }, PANEL_SWITCH_DELAY_MS)
+    }
+  }, [showCollisionPanel]);
+
+  useEffect(() => {
+    if (!showCollisionPanel && !showSeverityPanel){
+      setTimeout(() => {
+        setShowCollisionPanel(true);
+      }, PANEL_SWITCH_DELAY_MS)
+    }
+  }, [showSeverityPanel]);
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
@@ -110,8 +141,13 @@ export default function Home() {
         hood={currHood}
         mapRef={mapRef}
         removeSelectedMarker={removeSelectedMarker}
+        showCollisionPanel={showCollisionPanel}
       />
-      <SeverityRisk neighbourhood={currHood} />
+      <SeverityRisk neighbourhood={currHood} showSeverityPanel={showSeverityPanel} />
+
+      <div  className={`container ${styles.testButton}`}>
+        <button onClick={showPanelToggle} >h</button>     
+      </div>
     </> 
   );
 }

@@ -4,12 +4,14 @@ import { useState, useRef } from "react";
 import { fetchKernalDensityPrediction } from '../fetchPredictions';
 import './popup.css';
 import React from "react";
+
 interface CollisionRiskProps {
   latitude: number;
   longitude: number;
   hood: string;
   mapRef: React.RefObject<mapboxgl.Map | null>;
   removeSelectedMarker: () => void;
+  showCollisionPanel: boolean;
 }
 
 function coordKey(lat: number, lng: number): string{
@@ -21,9 +23,9 @@ export default function CollisionRisk({
   longitude,
   hood,
   mapRef,
-  removeSelectedMarker
+  removeSelectedMarker,
+  showCollisionPanel
 }: CollisionRiskProps) {
-  const [showCollisionPanel, setCollisionPanel]= useState<boolean>(false);
   const inputStep: number = 0.001;// step size for lat and long fields
   const [errorMsg, setErrorMsg] = useState<string>('');
 
@@ -81,14 +83,11 @@ export default function CollisionRisk({
   };
 
 
-  const showPanelToggle = () => {
-    setCollisionPanel(!showCollisionPanel);
-    console.log("Toggled Collision Panel");
-  }
+  
 
   return (
     <React.Fragment>
-    <div className={`${styles.collisionRisk} ${showCollisionPanel ? styles.hidden : ""}`}>
+    <div className={`${styles.collisionRisk} ${showCollisionPanel ? "" : styles.hidden}`}>
       <h4>Collision Risk</h4>
       <p>Click Map To Set Coordinates</p>
       <div className={styles.latLongGroup}>
@@ -125,10 +124,7 @@ export default function CollisionRisk({
           Predict Collision Risk
         </button>
     </div>
-    <div  className={`container ${styles.testButton}`}>
-      <button onClick={showPanelToggle} >h</button>
-          
-    </div>
+    
     </React.Fragment>
   )
 }

@@ -18,9 +18,10 @@ interface FormData {
 
 interface SeverityRiskProps {
   neighbourhood: string;
+  showSeverityPanel: boolean;
 }
 
-export default function SeverityRisk({ neighbourhood }: SeverityRiskProps) {
+export default function SeverityRisk({ neighbourhood, showSeverityPanel }: SeverityRiskProps) {
   const [formData, setFormData] = useState<FormData>({
     light_condition: '',
     visibility: '',
@@ -77,7 +78,7 @@ export default function SeverityRisk({ neighbourhood }: SeverityRiskProps) {
   };
 
   return (
-    <div className={`container ${styles.severityRisk}`}>
+    <div className={`${styles.severityRisk} ${showSeverityPanel ? "" : styles.hidden}`}>
       <h4>Severity Risk Assessment</h4>
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={`${styles.inputGroup} ${styles.fullWidth}`}>
