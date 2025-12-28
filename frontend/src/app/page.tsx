@@ -18,6 +18,7 @@ export default function Home() {
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const [center, setCenter] = useState<[number, number]>(INITIAL_CENTER);
+  const [mousePos, setMousePos] = useState<[number, number]>(INITIAL_CENTER);
   const [zoom, setZoom] = useState<number>(INITIAL_ZOOM);
   
   const selectedMarkerRef = useRef<mapboxgl.Marker | null>(null);// ref to store the selected position marker
@@ -52,6 +53,11 @@ export default function Home() {
       const mapZoom = map.getZoom();
       setCenter([mapCenter.lng, mapCenter.lat]);
       setZoom(mapZoom);
+    });
+
+    map.on("mousemove", (e) => {
+      const { lng, lat } = e.lngLat;
+      setMousePos([lng, lat]);
     });
 
     return () => mapRef.current?.remove();
@@ -101,7 +107,7 @@ export default function Home() {
         {/* <h3>Collision Risk Score: {currRiskScore}</h3>
         <h3>Collision Risk Class: {currPrediction}</h3>
         <h3>Current Hood: {currHood}</h3> */}
-        Longitude: {center[0].toFixed(4)} | Latitude: {center[1].toFixed(4)} |
+        Longitude: {mousePos[0].toFixed(4)} | Latitude: {mousePos[1].toFixed(4)} |
         Zoom: {zoom.toFixed(2)}
       </div>
       <RiskPanels 
