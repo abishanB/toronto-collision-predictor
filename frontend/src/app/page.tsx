@@ -40,7 +40,9 @@ export default function Home() {
       maxBounds: MAP_BOUNDS
     });
     mapRef.current = map; // assign to ref once created
+
     if (!mapRef.current) return;
+    
     mapRef.current.on("click", (e: mapboxgl.MapMouseEvent) => {
       handleMapClick(e);
     });

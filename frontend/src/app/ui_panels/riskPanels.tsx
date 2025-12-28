@@ -3,7 +3,8 @@ import CollisionRisk from "../collisionRisk/collisionRisk";
 import SeverityRisk from "../severityRisk/severityRisk";
 import styles from "./panels.module.css";
 
-const PANEL_SWITCH_DELAY_MS = 140;
+// Delay in ms for closing one panel and opening the other
+const PANEL_SWITCH_DELAY_MS: number = 140;
 
 interface RiskPanelsProps {
   latitude: number;
@@ -24,7 +25,7 @@ export default function RiskPanels({
   const [showSeverityPanel, setShowSeverityPanel] = useState<boolean>(false);
 
   const showPanelToggle = () => {
-    console.log("Toggled Collision Panel");
+    //console.log("Toggled Collision Panel");
     if (showCollisionPanel){
       setShowCollisionPanel(false);
       return
@@ -60,8 +61,10 @@ export default function RiskPanels({
       />
       <SeverityRisk neighbourhood={hood} showSeverityPanel={showSeverityPanel} />
 
-      <div className={`container ${styles.testButton}`}>
-        <button onClick={showPanelToggle}>Switch</button>     
+      <div className={`container ${styles.switch}`}>
+        <button onClick={showPanelToggle}>
+          <img src="/switch.svg" alt="Switch Panel" />
+        </button>     
       </div>
     </>
   )

@@ -4,6 +4,7 @@
   right: 0;
   bottom: 0;
   left: 0;
+  font-family: monospace;
 }
 
 #map-container {
@@ -79,18 +80,8 @@
 }
 
 .container {
-  background-color: rgb(35 55 75 / 90%);
-  width: 20vw;
-  color: #fff;
-  padding: 12px 12px;
-  font-family: monospace;
   z-index: 1;
   position: absolute;
-  margin: 16px;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  transition: width 0.3s ease;
 }
 
 h4 {

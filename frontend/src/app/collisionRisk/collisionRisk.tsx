@@ -31,7 +31,6 @@ export default function CollisionRisk({
 
   const predictedLocationsRef = useRef<Set<string>>(new Set());
 
-
   const handlePredict = async () => {
     if (!mapRef.current) return;
     if (hood === 'Unknown') {
@@ -82,12 +81,9 @@ export default function CollisionRisk({
     .addTo(mapRef.current);
   };
 
-
-  
-
   return (
     <React.Fragment>
-    <div className={`${styles.collisionRisk} ${showCollisionPanel ? "" : styles.hidden}`}>
+    <div className={`container ${styles.collisionRisk} ${showCollisionPanel ? "" : styles.hidden}`}>
       <h4>Collision Risk</h4>
       <p>Click Map To Set Coordinates</p>
       <div className={styles.latLongGroup}>

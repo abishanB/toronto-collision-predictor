@@ -1,6 +1,6 @@
-import styles from './severityRisk.module.css';
 import { useState, useEffect } from 'react';
 import { fetchSeverityRisk } from '../fetchPredictions';
+import styles from './severityRisk.module.css';
 
 interface FormData {
   light_condition: string;
@@ -78,7 +78,7 @@ export default function SeverityRisk({ neighbourhood, showSeverityPanel }: Sever
   };
 
   return (
-    <div className={`${styles.severityRisk} ${showSeverityPanel ? "" : styles.hidden}`}>
+    <div className={`container ${styles.severityRisk} ${showSeverityPanel ? "" : styles.hidden}`}>
       <h4>Severity Risk Assessment</h4>
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={`${styles.inputGroup} ${styles.fullWidth}`}>
