@@ -3,6 +3,7 @@ import mapboxgl from 'mapbox-gl';
 import { useState, useRef } from "react";
 import { fetchKernalDensityPrediction } from '../fetchPredictions';
 import './popup.css';
+import React from "react";
 
 interface CollisionRiskProps {
   latitude: number;
@@ -10,6 +11,7 @@ interface CollisionRiskProps {
   hood: string;
   mapRef: React.RefObject<mapboxgl.Map | null>;
   removeSelectedMarker: () => void;
+  showCollisionPanel: boolean;
 }
 
 function coordKey(lat: number, lng: number): string{
@@ -21,13 +23,13 @@ export default function CollisionRisk({
   longitude,
   hood,
   mapRef,
-  removeSelectedMarker
+  removeSelectedMarker,
+  showCollisionPanel
 }: CollisionRiskProps) {
   const inputStep: number = 0.001;// step size for lat and long fields
   const [errorMsg, setErrorMsg] = useState<string>('');
 
   const predictedLocationsRef = useRef<Set<string>>(new Set());
-
 
   const handlePredict = async () => {
     if (!mapRef.current) return;
@@ -80,7 +82,8 @@ export default function CollisionRisk({
   };
 
   return (
-    <div className={`container ${styles.collisionRisk}`}>
+    <React.Fragment>
+    <div className={`container ${styles.collisionRisk} ${showCollisionPanel ? "" : styles.hidden}`}>
       <h4>Collision Risk</h4>
       <p>Click Map To Set Coordinates</p>
       <div className={styles.latLongGroup}>
@@ -117,5 +120,7 @@ export default function CollisionRisk({
           Predict Collision Risk
         </button>
     </div>
+    
+    </React.Fragment>
   )
 }

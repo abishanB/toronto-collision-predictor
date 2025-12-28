@@ -1,12 +1,10 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
-import CollisionRisk from "./collisionRisk/collisionRisk";
-import SeverityRisk from "./severityRisk/severityRisk";  
+import RiskPanels from "./ui_panels/riskPanels";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./App.css";
 import { fetchHood } from './fetchPredictions';
-//https://www.w3schools.com/howto/howto_js_collapse_sidepanel.asp
 
 const INITIAL_CENTER: [number, number] = [-79.3662, 43.715];//long, lat
 const INITIAL_ZOOM: number = 10.5;
@@ -27,7 +25,6 @@ export default function Home() {
   const [longitude, setLongitude] = useState<number>(INITIAL_CENTER[0]);
 
   const [currHood, setCurrHood] = useState<string>("");
-  
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
@@ -43,7 +40,9 @@ export default function Home() {
       maxBounds: MAP_BOUNDS
     });
     mapRef.current = map; // assign to ref once created
+
     if (!mapRef.current) return;
+    
     mapRef.current.on("click", (e: mapboxgl.MapMouseEvent) => {
       handleMapClick(e);
     });
@@ -77,6 +76,7 @@ export default function Home() {
         .addTo(mapRef.current);
     } 
   };
+  
   const handleMapClick = async(e: mapboxgl.MapMouseEvent) => {
     //ignore clicks on existing markers or popups
     const target = e.originalEvent.target as HTMLElement;
@@ -104,14 +104,13 @@ export default function Home() {
         Longitude: {center[0].toFixed(4)} | Latitude: {center[1].toFixed(4)} |
         Zoom: {zoom.toFixed(2)}
       </div>
-      <CollisionRisk 
+      <RiskPanels 
         latitude={latitude}
         longitude={longitude}
         hood={currHood}
         mapRef={mapRef}
         removeSelectedMarker={removeSelectedMarker}
       />
-      <SeverityRisk neighbourhood={currHood} />
     </> 
   );
 }

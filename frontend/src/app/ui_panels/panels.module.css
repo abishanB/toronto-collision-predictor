@@ -1,0 +1,25 @@
+.switch {
+  top: 23%;
+  left: 0;
+  margin: 16px;
+  border-radius: 8px;
+  max-width: 80px;
+}
+
+.switch button {
+  width: 100%;
+  padding: 8px 12px;
+  background-color: rgb(35 55 75 / 90%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: monospace;
+}
+
+.switch img{
+  --switch-btn-size: 20px;
+  width: var(--switch-btn-size);
+  height: var(--switch-btn-size);
+}
