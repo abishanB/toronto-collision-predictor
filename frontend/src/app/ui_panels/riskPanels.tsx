@@ -22,8 +22,6 @@ export default function RiskPanels({
   hood,
   mapRef,
   removeSelectedMarker,
-  showNeighbourhoods,
-  setShowNeighbourhoods,
 }: RiskPanelsProps) {
   const [showCollisionPanel, setShowCollisionPanel] = useState<boolean>(true);
   const [showSeverityPanel, setShowSeverityPanel] = useState<boolean>(false);

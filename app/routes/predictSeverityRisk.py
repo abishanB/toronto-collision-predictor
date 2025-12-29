@@ -31,8 +31,8 @@ rf_model = load_model_obj["model"]
 feature_names = load_model_obj.get("feature_names", [])
 
 
-LOW_RISK_THRESHOLD = 0.35
-MEDIUM_RISK_THRESHOLD = 0.70
+LOW_RISK_THRESHOLD: float = 0.35
+MEDIUM_RISK_THRESHOLD: float = 0.70
 
 
 def classify_risk(probability: float) -> str:

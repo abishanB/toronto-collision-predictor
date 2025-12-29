@@ -18,11 +18,14 @@ kd_model = load_model_obj["model"]
 kd_min_risk: int = load_model_obj["min_risk"]
 kd_max_risk: int = load_model_obj["max_risk"]
 
+LOW_RISK_THRESHOLD: int = 15
+MEDIUM_RISK_THRESHOLD: int = 60
+
 
 def classify_risk(score: float) -> str:
-  if score < 15:
+  if score < LOW_RISK_THRESHOLD:
     return "Low Risk"
-  elif score < 60:
+  elif score < MEDIUM_RISK_THRESHOLD:
     return "Medium Risk"
   else:
     return "High Risk"
