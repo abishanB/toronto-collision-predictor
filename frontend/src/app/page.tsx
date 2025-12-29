@@ -17,7 +17,7 @@ const MAP_BOUNDS: [[number, number], [number, number]] = [
 export default function Home() {
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const [center, setCenter] = useState<[number, number]>(INITIAL_CENTER);
+  const [center, setCenter] = useState<[number, number]>(INITIAL_CENTER);//camera center
   const [mousePos, setMousePos] = useState<[number, number]>(INITIAL_CENTER);
   const [zoom, setZoom] = useState<number>(INITIAL_ZOOM);
   
