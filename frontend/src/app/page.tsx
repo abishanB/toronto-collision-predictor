@@ -3,6 +3,7 @@ import { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import RiskPanels from "./ui_panels/riskPanels";
 import NeighbourhoodLayers from "./NeighbourhoodLayers";
+import CollisonHeatmap from "./collisonHeatmap";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./App.css";
 import { fetchHood } from './fetchPredictions';
@@ -105,6 +106,7 @@ export default function Home() {
   return (
     <>
       <div id="map-container" ref={mapContainerRef} />
+      <CollisonHeatmap map={mapRef.current} showHeatmap={true} />
       <NeighbourhoodLayers map={mapRef.current} showNeighbourhoods={showNeighbourhoods} />
       <div className="temp">
         {/* <h3>Collision Risk Score: {currRiskScore}</h3>
