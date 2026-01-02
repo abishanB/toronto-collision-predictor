@@ -28,7 +28,9 @@ export default function Home() {
   const [longitude, setLongitude] = useState<number>(INITIAL_CENTER[0]);
 
   const [currHood, setCurrHood] = useState<string>("");
+
   const [showNeighbourhoods, setShowNeighbourhoods] = useState<boolean>(false);
+  const [showHeatmap, setShowHeatmap] = useState<boolean>(false);
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
@@ -106,7 +108,7 @@ export default function Home() {
   return (
     <>
       <div id="map-container" ref={mapContainerRef} />
-      <CollisonHeatmap map={mapRef.current} showHeatmap={true} />
+      <CollisonHeatmap map={mapRef.current} showHeatmap={showHeatmap} />
       <NeighbourhoodLayers map={mapRef.current} showNeighbourhoods={showNeighbourhoods} />
       <div className="temp">
         {/* <h3>Collision Risk Score: {currRiskScore}</h3>
@@ -115,7 +117,9 @@ export default function Home() {
         Longitude: {mousePos[0].toFixed(4)} | Latitude: {mousePos[1].toFixed(4)} |
         Zoom: {zoom.toFixed(2)}
       </div>
-      <div className={'container neighbourhood-toggle'}>
+      
+
+      <div id="neighbourhood-toggle" className={'container toggle'}>
         <label htmlFor="neighbourhood-toggle" className='toggle-label'>
           Show Neighbourhoods
         </label>
@@ -128,6 +132,19 @@ export default function Home() {
         />
       </div>
 
+      <div id="heatmap-toggle" className={'container toggle'}>
+        <label htmlFor="heatmap-toggle" className='toggle-label'>
+          Show Heatmap
+        </label>
+        <input
+          id="heatmap-toggle"
+          type="checkbox"
+          checked={showHeatmap}
+          onChange={(e) => setShowHeatmap(e.target.checked)}
+          className='toggle-checkbox'
+        />
+      </div>
+      
       <RiskPanels 
         latitude={latitude}
         longitude={longitude}
