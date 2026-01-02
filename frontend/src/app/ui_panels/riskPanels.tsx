@@ -1,30 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import mapboxgl from "mapbox-gl";
 import CollisionRisk from "../collisionRisk/collisionRisk";
 import SeverityRisk from "../severityRisk/severityRisk";
 import styles from "./panels.module.css";
-
+import { fetchHood } from '../fetchPredictions';
 // Delay in ms for closing one panel and opening the other
 const PANEL_SWITCH_DELAY_MS: number = 140;
 
 interface RiskPanelsProps {
-  latitude: number;
-  longitude: number;
-  hood: string;
   mapRef: React.RefObject<mapboxgl.Map | null>;
-  removeSelectedMarker: () => void;
-  showNeighbourhoods: boolean;
-  setShowNeighbourhoods: (show: boolean) => void;
 }
 
 export default function RiskPanels({
-  latitude,
-  longitude,
-  hood,
   mapRef,
-  removeSelectedMarker,
 }: RiskPanelsProps) {
   const [showCollisionPanel, setShowCollisionPanel] = useState<boolean>(true);
   const [showSeverityPanel, setShowSeverityPanel] = useState<boolean>(false);
+
+  const [latitude, setLatitude] = useState<number>(43.715);//random coords in Toronto
+  const [longitude, setLongitude] = useState<number>(-79.3662);
+  const [currHood, setCurrHood] = useState<string>("");
+
+  const selectedMarkerRef = useRef<mapboxgl.Marker | null>(null);// ref to store the selected position marker
+  
 
   const showPanelToggle = () => {
     //console.log("Toggled Collision Panel");
@@ -34,6 +32,18 @@ export default function RiskPanels({
     }
     setShowSeverityPanel(false)
   }
+
+  useEffect(() => {//set up map click listener
+    const map = mapRef.current;
+    if (!map) return;
+
+    const handleClick = (e: mapboxgl.MapMouseEvent) => handleMapClick(e);
+    map.on("click", handleClick);
+
+    return () => {
+      map.off("click", handleClick);
+    };
+  }, [mapRef.current]);
 
   useEffect(() => {
     if (!showCollisionPanel && !showSeverityPanel){
@@ -51,17 +61,54 @@ export default function RiskPanels({
     }
   }, [showSeverityPanel]);
 
+
+  const handleMapClick = async(e: mapboxgl.MapMouseEvent) => {
+    const target = e.originalEvent.target as HTMLElement;
+    if (target.closest(".mapboxgl-marker") || target.closest(".mapboxgl-popup")) {
+      //ignore clicks on existing markers or popups
+      return;
+    }
+    
+    let { lat, lng } = e.lngLat;
+    setLatitude(lat);
+    setLongitude(lng);
+    
+    let hood = await fetchHood(lat, lng)
+    setCurrHood(hood.neighbourhood_name);
+    
+    updateSelectedMarker(lng, lat);
+    };
+
+  const removeSelectedMarker = (): void => { 
+    if (selectedMarkerRef.current) {
+      selectedMarkerRef.current.remove();
+      selectedMarkerRef.current = null;
+    }
+  }
+
+  const updateSelectedMarker = (lng: number, lat: number): void => {
+    removeSelectedMarker();
+
+    const selected_postion_marker: Element = document.createElement("div");
+    selected_postion_marker.className = "selected " + "marker";
+    if (mapRef.current) {
+      selectedMarkerRef.current = new mapboxgl.Marker(selected_postion_marker)
+        .setLngLat([lng, lat])
+        .setPopup(new mapboxgl.Popup({ offset: 25 }))
+        .addTo(mapRef.current);
+    } 
+  };
   return (
     <>
       <CollisionRisk 
         latitude={latitude}
         longitude={longitude}
-        hood={hood}
+        hood={currHood}
         mapRef={mapRef}
         removeSelectedMarker={removeSelectedMarker}
         showCollisionPanel={showCollisionPanel}
       />
-      <SeverityRisk neighbourhood={hood} showSeverityPanel={showSeverityPanel} />
+      <SeverityRisk neighbourhood={currHood} showSeverityPanel={showSeverityPanel} />
 
       <div className={`container ${styles.switch}`}>
         <button onClick={showPanelToggle}>

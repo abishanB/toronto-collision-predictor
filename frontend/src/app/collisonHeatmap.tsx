@@ -27,7 +27,7 @@ const CollisonHeatmap = ({ map, showHeatmap }: CollisonHeatmapProps) => {
               id: "collisions-heat",
               type: "heatmap",
               source: "collisions",
-              layout: { visibility: "visible" },
+              layout: { visibility: "none" },
               paint: {
                 "heatmap-intensity": ["interpolate", ["linear"], ["zoom"], 0, 0.01, 15, 0.15],
                 "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 0, 1, 10, 10],
