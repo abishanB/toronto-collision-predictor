@@ -1,0 +1,31 @@
+.toggle{
+  border-radius: 8px;
+  background-color: rgb(35 55 75 / 90%);
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+}
+
+#neighbourhood-toggle {
+  top: 60px;
+  left: 20px;
+}
+
+#heatmap-toggle {
+  top: 100px;
+  left: 20px;
+}
+
+.toggle-label {
+  font-size: 12px;
+  font-family: monospace;
+}
+
+.toggle-checkbox {
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  accent-color: #088;
+}

@@ -1,9 +1,9 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
-import RiskPanels from "./ui_panels/riskPanels";
-import NeighbourhoodLayers from "./NeighbourhoodLayers";
-import CollisonHeatmap from "./collisonHeatmap";
+import RiskPanels from "./riskPanels/riskPanels";
+
+import MapLayers from "./mapLayers/mapLayers";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./App.css";
 
@@ -60,8 +60,6 @@ export default function Home() {
   return (
     <>
       <div id="map-container" ref={mapContainerRef} />
-      <CollisonHeatmap map={mapRef.current} showHeatmap={showHeatmap} />
-      <NeighbourhoodLayers map={mapRef.current} showNeighbourhoods={showNeighbourhoods} />
       <div className="temp">
         {/* <h3>Collision Risk Score: {currRiskScore}</h3>
         <h3>Collision Risk Class: {currPrediction}</h3>
@@ -71,31 +69,7 @@ export default function Home() {
       </div>
       
 
-      <div id="neighbourhood-toggle" className={'container toggle'}>
-        <label htmlFor="neighbourhood-toggle" className='toggle-label'>
-          Show Neighbourhoods
-        </label>
-        <input
-          id="neighbourhood-toggle"
-          type="checkbox"
-          checked={showNeighbourhoods}
-          onChange={(e) => setShowNeighbourhoods(e.target.checked)}
-          className='toggle-checkbox'
-        />
-      </div>
-
-      <div id="heatmap-toggle" className={'container toggle'}>
-        <label htmlFor="heatmap-toggle" className='toggle-label'>
-          Show Heatmap
-        </label>
-        <input
-          id="heatmap-toggle"
-          type="checkbox"
-          checked={showHeatmap}
-          onChange={(e) => setShowHeatmap(e.target.checked)}
-          className='toggle-checkbox'
-        />
-      </div>
+      <MapLayers mapRef={mapRef} />
       
       <RiskPanels mapRef={mapRef}/>
     </> 

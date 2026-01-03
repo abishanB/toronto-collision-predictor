@@ -1,0 +1,41 @@
+.popup-content {
+  font-family: Arial, sans-serif;
+  color: #333;
+  width: fit-content;
+  height: fit-content;
+  margin: 0;
+  padding: 0px;
+}
+.popup-content h3 {
+  padding: 0;
+  margin: 0;
+  font-size: 0.775rem;
+}
+
+.popup-content p {
+  padding: 0;
+  margin: 0;
+  font-size: 0.7rem;
+}
+
+.marker {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.marker.low {
+  background: url("/low-marker.svg") center / contain no-repeat;
+}
+
+.marker.medium {
+  background: url("/medium-marker.svg") center / contain no-repeat;
+}
+
+.marker.high {
+  background: url("/high-marker.svg") center / contain no-repeat;
+}
+.marker.selected{
+  background: url("/selected-position-marker.svg") center / contain no-repeat;
+}
