@@ -23,8 +23,10 @@ export default function RiskPanels({
 
   const selectedMarkerRef = useRef<mapboxgl.Marker | null>(null);// ref to store the selected position marker
   
+  const [animateSwitchIcon, setAnimateSwitchIcon] = useState<boolean>(false);
 
   const showPanelToggle = () => {
+    setAnimateSwitchIcon(!animateSwitchIcon)
     //console.log("Toggled Collision Panel");
     if (showCollisionPanel){
       setShowCollisionPanel(false);
@@ -110,7 +112,7 @@ export default function RiskPanels({
       />
       <SeverityRisk neighbourhood={currHood} showSeverityPanel={showSeverityPanel} />
 
-      <div className={`container switch`}>
+      <div className={`container switch ${animateSwitchIcon ? "active" : ""}`}>
         <button onClick={showPanelToggle}>
           <img src="/switch.svg" alt="Switch Panel" />
         </button>     

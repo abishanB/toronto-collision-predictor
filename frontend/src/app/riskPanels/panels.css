@@ -16,12 +16,24 @@
   font-size: 12px;
   cursor: pointer;
   font-family: monospace;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .switch img{
   --switch-btn-size: 20px;
   width: var(--switch-btn-size);
   height: var(--switch-btn-size);
+}
+
+.switch {
+  transition: transform 0.25s ease, background-color 0.2s ease;
+}
+
+.switch.active {
+  transform: rotate(180deg);
 }
 
 .predict-button {
