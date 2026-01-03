@@ -1,7 +1,7 @@
 import styles from "./collisionRisk.module.css"
 import mapboxgl from 'mapbox-gl';
 import { useState, useRef } from "react";
-import { fetchKernalDensityPrediction } from '../fetchPredictions';
+import { fetchKernalDensityPrediction } from './fetchKernalDensityPrediction';
 import './popupMarkers.css';
 import React from "react";
 

@@ -21,8 +21,6 @@ export default function Home() {
   const [mousePos, setMousePos] = useState<[number, number]>(INITIAL_CENTER);
   const [zoom, setZoom] = useState<number>(INITIAL_ZOOM);
   
-  const [showNeighbourhoods, setShowNeighbourhoods] = useState<boolean>(false);
-  const [showHeatmap, setShowHeatmap] = useState<boolean>(false);
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;

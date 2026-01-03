@@ -3,7 +3,7 @@ import mapboxgl from "mapbox-gl";
 import CollisionRisk from "../collisionRisk/collisionRisk";
 import SeverityRisk from "../severityRisk/severityRisk";
 import "./panels.css";
-import { fetchHood } from '../fetchPredictions';
+import { fetchHood } from './fetchNeighbourhood';
 // Delay in ms for closing one panel and opening the other
 const PANEL_SWITCH_DELAY_MS: number = 140;
 
