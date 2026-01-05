@@ -57,6 +57,7 @@ export default function Home() {
   return (
     <>
       <div id="map-container" ref={mapContainerRef} />
+
       <div className="map-status">
         Longitude: {mousePos[0].toFixed(4)} | Latitude: {mousePos[1].toFixed(4)} |
         Zoom: {zoom.toFixed(2)}
@@ -65,6 +66,13 @@ export default function Home() {
       <MapLayers mapRef={mapRef} />
       
       <RiskPanels mapRef={mapRef}/>
+
+      <div className="container copyright">
+        © abishanB | 
+        <a href="https://github.com/abishanB/toronto-traffic-collision-predictor" target="_blank" rel="noopener noreferrer">
+        &nbsp;GitHub
+        </a>
+      </div>
     </> 
   );
 }

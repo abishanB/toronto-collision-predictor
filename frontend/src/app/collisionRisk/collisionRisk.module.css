@@ -1,5 +1,5 @@
 .collisionRisk {
-  top: 30%;
+  top: calc(20% + 50px);
   left: 0;
 
   max-width: 300px;
@@ -44,6 +44,10 @@
   background-color: rgba(255, 255, 255, 0.9);
   color: #333;
   font-size: 0.9rem;
+}
+
+.input-group input:disabled {
+  cursor: not-allowed;
 }
 
 .input-group input:focus {

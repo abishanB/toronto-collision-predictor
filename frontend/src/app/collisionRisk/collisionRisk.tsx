@@ -97,6 +97,7 @@ export default function CollisionRisk({
             value={hood}
             placeholder=""
             readOnly
+            disabled
           />
         </div>
 
@@ -110,6 +111,7 @@ export default function CollisionRisk({
             step={inputStep}
             placeholder="Enter longitude"
             readOnly
+            disabled
           />
         </div>
 
@@ -123,6 +125,7 @@ export default function CollisionRisk({
             step={inputStep}
             placeholder="Enter latitude"
             readOnly
+            disabled
           />
         </div>
       </div>

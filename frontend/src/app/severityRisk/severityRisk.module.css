@@ -1,5 +1,5 @@
 .severityRisk {
-  top: 28%;
+  top: calc(20% + 50px);
   left: 0;
   max-width: 365px;
   max-height: 600px;

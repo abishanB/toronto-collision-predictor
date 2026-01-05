@@ -38,3 +38,13 @@ h4 {
 }
 
 
+.copyright {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, .5);
+  color: black;
+  font-size: 10px;
+  padding: 2px 4px;
+
+}
