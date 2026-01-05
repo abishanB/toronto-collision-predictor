@@ -57,7 +57,7 @@
 }
 
 
-.latLongGroup > .input-group:nth-child(3) input {
+.latLongGroup > .input-group:nth-child(1) input {
   /* neighbouhood field has smaller font*/
   font-size: 0.8rem
 }
