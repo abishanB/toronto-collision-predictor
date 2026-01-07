@@ -1,6 +1,5 @@
 .DS_Store
 .ipynb_checkpoints/
 Traffic_Collisions_Open_Data_Complete.csv
-.env
 .env.local
 __pycache__/
