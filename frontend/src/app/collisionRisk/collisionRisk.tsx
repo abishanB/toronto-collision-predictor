@@ -102,6 +102,20 @@ export default function CollisionRisk({
         </div>
 
         <div className={styles['input-group']}>
+          <label htmlFor="latitude">Latitude:</label>
+          <input
+            type="number"
+            id="latitude"
+            name="latitude"
+            value={latitude.toFixed(6)}
+            step={inputStep}
+            placeholder="Enter latitude"
+            readOnly
+            disabled
+          />
+        </div>
+        
+        <div className={styles['input-group']}>
           <label htmlFor="longitude">Longitude:</label>
           <input
             type="number"
@@ -115,19 +129,7 @@ export default function CollisionRisk({
           />
         </div>
 
-        <div className={styles['input-group']}>
-          <label htmlFor="latitude">Latitude:</label>
-          <input
-            type="number"
-            id="latitude"
-            name="latitude"
-            value={latitude.toFixed(6)}
-            step={inputStep}
-            placeholder="Enter latitude"
-            readOnly
-            disabled
-          />
-        </div>
+
       </div>
       <p className={styles.errorMsg}>{errorMsg}</p>
        <button 

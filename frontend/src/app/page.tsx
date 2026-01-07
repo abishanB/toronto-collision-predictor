@@ -7,7 +7,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import "./App.css";
 
 const INITIAL_CENTER: [number, number] = [-79.3662, 43.715];//long, lat
-const INITIAL_ZOOM: number = 10.5;
+const INITIAL_ZOOM: number = 10.35;
 
 const MAP_BOUNDS: [[number, number], [number, number]] = [
   [-79.8298827685777, 43.5], // Southwest coordinates
@@ -60,7 +60,7 @@ export default function Home() {
       <div id="map-container" ref={mapContainerRef} />
 
       <div className="map-status">
-        Longitude: {mousePos[0].toFixed(4)} | Latitude: {mousePos[1].toFixed(4)} |
+        Latitude: {mousePos[1].toFixed(4)} | Longitude: {mousePos[0].toFixed(4)} |
         Zoom: {zoom.toFixed(2)}
       </div>
     
